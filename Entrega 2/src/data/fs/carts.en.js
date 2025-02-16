@@ -1,7 +1,7 @@
 import fs from "fs/promises";
-import { v4 as uuidv4 } from "uuid"; // Make sure to have this import to use uuid
+import { v4 as uuidv4 } from "uuid";
 
-const cartsFile = "./src/data/fs/files/carts.json"; // Path where carts will be saved
+const cartsFile = "./src/data/fs/files/carts.json"; 
 
 class CartManager {
   constructor() {

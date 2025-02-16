@@ -6,7 +6,6 @@
 
 import { faker } from "@faker-js/faker";
 import fs from "fs/promises";
-import path from "path";
 
 class Manager {
   constructor(model, path) {
@@ -31,10 +30,10 @@ class Manager {
   async read() {
     try {
       const data = await fs.readFile(this.path, "utf-8");
-      return JSON.parse(data);
+      return json.parse(data);
     } catch (error) {
       console.error(`Error al leer el archivo: ${this.path}`, error);
-      return [];
+      return null;
     }
   }
 

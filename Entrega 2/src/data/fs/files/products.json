@@ -32,6 +32,14 @@
     "category": "accesorios"
   },
   {
+    "_id": "495ec1eb36927c30c0efabcd",
+    "title": "Calavera Sangrienta",
+    "price": "150.00",
+    "stock": 100,
+    "photo": "",
+    "category": "unica"
+  },
+  {
     "_id": "f0f6a69f9fcabbaa934fd0d0",
     "title": "Modern Plastic Salad",
     "price": "470.69",
@@ -72,19 +80,19 @@
     "category": "computadoras"
   },
   {
-    "_id": "e3517de9fee9fa7aadbfda8a",
-    "title": "Bespoke Marble Shirt",
-    "price": "162.50",
-    "stock": 340,
-    "photo": "https://picsum.photos/seed/Amffs3/3595/3288",
-    "category": "celulares"
-  },
-  {
     "_id": "ed59eaaffafebafb4af9ed27",
     "title": "Rustic Keyboard",
     "price": "151.00",
     "stock": 100,
     "photo": "https://picsum.photos/seed/8cmpvRXd/2288/3830",
     "category": "accesorios"
+  },
+  {
+    "_id": "e3517de9fee9fa7aadbfda8a",
+    "title": "Bespoke Marble Shirt",
+    "price": "162.50",
+    "stock": 340,
+    "photo": "https://picsum.photos/seed/Amffs3/3595/3288",
+    "category": "celulares"
   }
-] 
+]

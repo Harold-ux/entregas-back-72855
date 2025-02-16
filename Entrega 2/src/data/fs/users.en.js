@@ -86,13 +86,12 @@ class UsersManager {
       return res.status(status).json({ error: message });
     }
   }
-
   async readOne(uid) {
     try {
       const data = await this.read();
       const user = data.find((user) => user._id === uid);
-      if (index === -1) {
-        const error = new Error(`User with ID ${id} not found`);
+      if (user === undefined) {
+        const error = new Error(`User with ID ${uid} not found`);
         error.status = 404;
         throw error;
       }
@@ -102,9 +101,18 @@ class UsersManager {
     }
   }
 
-  async readAll() {
+  async readAll(role = null) {
     try {
       const data = await this.read();
+      if (role) {
+        const users = data.filter((user) => user.role === role);
+        if (users.length === 0) {
+          const error = new Error(`No users with role ${role} found`);
+          error.status = 404;
+          throw error;
+        }
+        return users;
+      }
       return data;
     } catch (error) {
       throw new Error("Error al leer los usuarios");
@@ -162,4 +170,5 @@ const usersManager = new UsersManager();
   const users = await usersManager.read();
   console.log("Usuarios leídos:", users);
 })();
+
 export default usersManager;
