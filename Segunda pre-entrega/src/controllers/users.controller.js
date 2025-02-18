@@ -1,7 +1,7 @@
 import usersManager from "../data/fs/users.en.js";
-import isValidUser from "../middlewares/isValidUser.mid.js"; // Importa el middleware
+import isValidUser from "../middlewares/isValidUser.mid.js"; // Import the middleware
 
-// Funcion para crear un usuario
+// Function to create a user
 const createUser = async (req, res, next) => {
   try {
     const newUser = await usersManager.create(req.body);
@@ -12,7 +12,7 @@ const createUser = async (req, res, next) => {
   }
 };
 
-// Funcion para leer un usuario
+// Function to read a user
 const readOneUser = async (req, res, next) => {
   const { uid } = req.params;
   try {
@@ -27,7 +27,7 @@ const readOneUser = async (req, res, next) => {
   }
 };
 
-// Funcion para leer todos los usuarios
+// Function to read all users
 const readUsers = async (req, res, next) => {
   try {
     const { role } = req.query;
@@ -42,7 +42,7 @@ const readUsers = async (req, res, next) => {
   }
 };
 
-// Funcion para actualizar un usuario
+// Function to update a user
 const updateUser = async (req, res, next) => {
   const { uid } = req.params;
   try {
@@ -57,7 +57,7 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-// Funcion para eliminar un usuario
+// Function to delete a user
 const deleteUser = async (req, res, next) => {
   const { uid } = req.params;
   try {

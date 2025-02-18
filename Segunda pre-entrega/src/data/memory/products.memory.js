@@ -1,4 +1,4 @@
-/* import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 
 class ProductsManager {
   #all = [];
@@ -11,10 +11,10 @@ class ProductsManager {
       const stock = faker.number.int({ min: 0, max: 1000 });
       const photo = faker.image.url();
       const category = faker.helpers.arrayElement([
-        "ninguna",
-        "celulares",
-        "computadoras",
-        "accesorios",
+        "none",
+        "cellphones",
+        "computers",
+        "accessories",
       ]);
 
       const newProduct = {
@@ -44,7 +44,7 @@ class ProductsManager {
 
   readOne = (id) => {
     try {
-      const product = this.#all.find((p) => p.id === id);
+      const product = this.#all.find((p) => p._id === id);
       return product;
     } catch (error) {
       throw error;
@@ -55,4 +55,3 @@ class ProductsManager {
 const productsManager = new ProductsManager();
 
 export default productsManager;
- */

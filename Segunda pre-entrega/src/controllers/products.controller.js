@@ -1,7 +1,6 @@
 import productsManager from "../data/fs/products.en.js";
 
-
-// Obtener todos los productos
+// Get all products
 const readProducts = async (req, res, next) => {
   try {
     const { category } = req.query;
@@ -17,7 +16,7 @@ const readProducts = async (req, res, next) => {
   }
 };
 
-// Obtener un producto por ID
+// Get a product by ID
 const readOne = async (req, res, next) => {
   try {
     const { pid } = req.params;
@@ -35,7 +34,7 @@ const readOne = async (req, res, next) => {
   }
 };
 
-// Crear un producto
+// Create a product
 const createProduct = async (req, res, next) => {
   try {
     const one = await productsManager.create(req.body);
@@ -45,7 +44,7 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-// Actualizar un producto
+// Update a product
 const updateProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
@@ -61,7 +60,7 @@ const updateProduct = async (req, res, next) => {
   }
 };
 
-// Eliminar un producto
+// Delete a product
 const deleteProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;

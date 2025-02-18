@@ -1,38 +1,36 @@
+// Code with all generic classes for data management, whether users or products.
 
-// Código con todas las clases genericas para la gestión de datos, sean usuarios o sean productos.
-
-
-// Clase Genérica para Gestión de Datos
+// Generic Class for Data Management
 
 import { faker } from "@faker-js/faker";
 import fs from "fs/promises";
 
 class Manager {
   constructor(model, path) {
-    this.model = model; // Función que genera un nuevo objeto
+    this.model = model; // Function that generates a new object
     this.path = path;
     this.init()
-      .then(() => console.log(`Inicialización completa en ${this.path}`))
+      .then(() => console.log(`Initialization complete at ${this.path}`))
       .catch(console.error);
   }
 
   async init() {
     try {
       await fs.access(this.path);
-      console.log(`El archivo ya existe: ${this.path}`);
+      console.log(`The file already exists: ${this.path}`);
     } catch {
-      console.error(`Archivo no encontrado... creando uno nuevo: ${this.path}`);
+      console.error(`File not found... creating a new one: ${this.path}`);
       await fs.writeFile(this.path, JSON.stringify([]));
-      console.log(`Archivo creado en: ${this.path}`);
+      console.log(`File created at: ${this.path}`);
     }
   }
 
   async read() {
     try {
       const data = await fs.readFile(this.path, "utf-8");
-      return json.parse(data);
+      return JSON.parse(data);
     } catch (error) {
-      console.error(`Error al leer el archivo: ${this.path}`, error);
+      console.error(`Error reading the file: ${this.path}`, error);
       return null;
     }
   }
@@ -42,32 +40,26 @@ class Manager {
       const jsonData = JSON.stringify(data, null, 2);
       await fs.writeFile(this.path, jsonData);
     } catch (error) {
-      console.error(`Error al escribir en el archivo: ${this.path}`, error);
+      console.error(`Error writing to the file: ${this.path}`, error);
     }
   }
 
   async create() {
     try {
-      const newItem = this.model(); // Genera un nuevo objeto usando la función pasada
+      const newItem = this.model(); // Generates a new object using the passed function
       const data = await this.read();
       data.push(newItem);
       await this.write(data);
-      console.log("Nuevo elemento creado:", newItem);
+      console.log("New item created:", newItem);
       return newItem;
     } catch (error) {
-      console.error("Error al crear el nuevo elemento:", error);
+      console.error("Error creating the new item:", error);
       throw error;
     }
   }
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-// Implementación de Usuarios
-
-
+// User Implementation
 
 /* const userModel = () => ({
     _id: faker.database.mongodbObjectId(),
@@ -83,48 +75,38 @@ class Manager {
   const usersManager = new Manager(userModel, "data/fs/files/users.json");
   export default usersManager;
  */
-  
 
+// Product Implementation
 
-  //////////////////////////////////////////////////////////////////////////////////////////////
+const productModel = () => ({
+  _id: faker.database.mongodbObjectId(),
+  title: faker.commerce.productName(),
+  price: faker.commerce.price({ min: 10, max: 500, dec: 2 }),
+  stock: faker.number.int({ min: 0, max: 1000 }),
+  photo: faker.image.url(),
+  category: faker.helpers.arrayElement([
+    "none",
+    "cellphones",
+    "computers",
+    "accessories",
+  ]),
+});
 
+const productsManager = new Manager(productModel, "./src/data/fs/files/products.json");
+export default productsManager;
 
-//   Implementación de Productos
+// Implementation and executions
 
-  const productModel = () => ({
-    _id: faker.database.mongodbObjectId(),
-    title: faker.commerce.productName(),
-    price: faker.commerce.price({ min: 10, max: 500, dec: 2 }),
-    stock: faker.number.int({ min: 0, max: 1000 }),
-    photo: faker.image.url(),
-    category: faker.helpers.arrayElement([
-      "ninguna",
-      "celulares",
-      "computadoras",
-      "accesorios",
-    ]),
-  });
-  
-  const productsManager = new Manager(productModel, "./src/data/fs/files/products.json");
-  export default productsManager;
+(async () => {
+/*    const newUser = await usersManager.create();
+    console.log("User created:", newUser); */
 
-  
+  const newProduct = await productsManager.create();
+  console.log("Product created:", newProduct);
 
-  //////////////////////////////////////////////////////////////////////////////////////////////
+/*    const allUsers = await usersManager.read();
+    console.log("Stored users:", allUsers); */
 
-//   implementación y ejecuciones
-
-  (async () => {
- /*    const newUser = await usersManager.create();
-    console.log("Usuario creado:", newUser); */
-  
-    const newProduct = await productsManager.create();
-    console.log("Producto creado:", newProduct);
-  
-/*     const allUsers = await usersManager.read();
-    console.log("Usuarios almacenados:", allUsers); */
-  
-    const allProducts = await productsManager.read();
-    console.log("Productos almacenados:", allProducts);
-  })();
-  
+  const allProducts = await productsManager.read();
+  console.log("Stored products:", allProducts);
+})();

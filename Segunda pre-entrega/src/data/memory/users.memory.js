@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 
 class UsersManager {
   #all = [];
-  // metodo para crear un usuario nuevo
+  // method to create a new user
   create = () => {
     try {
       const fullName = faker.person.fullName().toLocaleLowerCase().split(" ");
@@ -14,15 +14,15 @@ class UsersManager {
         lastName: fullName[1],
         email: email,
         address: address,
-        password: "hola1234",
+        password: "hello1234",
         avatar: faker.image.avatar(),
-        role: faker.helpers.arrayElement(["user", "admin", "premiun"]),
+        role: faker.helpers.arrayElement(["user", "admin", "premium"]),
       };
       this.#all.push(user);
-      console.log("Nuevo usuario creado:", user);
+      console.log("New user created:", user);
       return user;
     } catch (error) {
-      throw new Error("Error al crear usuario");
+      throw new Error("Error creating user");
     }
   };
   readAll = () => {

@@ -1,10 +1,8 @@
 const socket = io();
 
-// Capturar el formulario y la lista de productos
 const addProductForm = document.getElementById("addProductForm");
 const productList = document.getElementById("productList");
 
-// Escuchar el envío del formulario para agregar productos
 addProductForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -13,20 +11,17 @@ addProductForm.addEventListener("submit", (event) => {
     const stock = parseInt(document.getElementById("stock").value);
 
     if (!title || isNaN(price) || isNaN(stock)) {
-        alert("Todos los campos son obligatorios.");
+        alert("All fields are required.");
         return;
     }
 
     const newProduct = { title, price, stock };
 
-    // Enviar el producto al servidor vía WebSocket
     socket.emit("addProduct", newProduct);
 
-    // Resetear el formulario
     addProductForm.reset();
 });
 
-// Escuchar la actualización de la lista de productos en tiempo real
 socket.on("updateProducts", (products) => {
     productList.innerHTML = "";
     products.forEach((product) => {
@@ -48,11 +43,10 @@ socket.on("updateProducts", (products) => {
     });
 });
 
-// 🔴 Mejor manera: Event Delegation para evitar múltiples event listeners
 document.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-btn")) {
         const productId = event.target.dataset.id;
-        if (confirm("¿Seguro que quieres eliminar este producto?")) {
+        if (confirm("Are you sure you want to delete this product?")) {
             socket.emit("deleteProduct", productId);
         }
     }

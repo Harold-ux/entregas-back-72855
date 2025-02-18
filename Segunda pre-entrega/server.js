@@ -11,7 +11,7 @@ import { Server } from "socket.io";
 import http from "http";
 import productsManager from "./src/data/fs/products.en.js";
 
-// Configuración del servidor
+// Server configuration
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -20,47 +20,47 @@ const port = 8080;
 // WebSocket
 io.on("connection", async (socket) => {
   try {
-    console.log("Nuevo usuario conectado");
-    // Emitir la lista de productos al cliente recién conectado
+    console.log("New user connected");
+    // Emit the list of products to the newly connected client
     socket.emit("updateProducts", await productsManager.readAll());
 
-    // Evento para agregar un producto
+    // Event to add a product
     socket.on("addProduct", async (productData) => {
       if (!productData.image) {
         productData.image =
-          "https://img.freepik.com/vector-premium/vector-icono-imagen-predeterminado-pagina-imagen-faltante-diseno-sitio-web-o-aplicacion-movil-no-hay-foto-disponible_87543-11093.jpg"; // Imagen por defecto
+          "https://img.freepik.com/vector-premium/vector-icono-imagen-predeterminado-pagina-imagen-faltante-diseno-sitio-web-o-aplicacion-movil-no-hay-foto-disponible_87543-11093.jpg"; // Default image
       }
       await productsManager.create(productData);
-      // Actualizar la lista de productos a todos los clientes conectados
+      // Update the list of products to all connected clients
       io.emit("updateProducts", await productsManager.readAll());
     });
 
-    // Evento para eliminar un producto
+    // Event to delete a product
     socket.on("deleteProduct", async (productId) => {
       try {
         const deleted = await productsManager.deleteOne(productId);
         if (!deleted) {
-          console.log(`Producto con ID ${productId} no encontrado`);
+          console.log(`Product with ID ${productId} not found`);
           return;
         }
-        // Actualizar la lista de productos a todos los clientes conectados
+        // Update the list of products to all connected clients
         io.emit("updateProducts", await productsManager.readAll());
       } catch (error) {
-        console.error("Error al eliminar el producto:", error);
+        console.error("Error deleting the product:", error);
       }
     });
 
     socket.on("disconnect", () => {
-      console.log("Usuario desconectado");
+      console.log("User disconnected");
     });
 
   } catch (error) {
-    console.error("Error al conectar WebSocket:", error);
-    socket.emit("error", "No se pudieron cargar los productos.");
+    console.error("Error connecting WebSocket:", error);
+    socket.emit("error", "Could not load products.");
   }
 });
 
-// Configuración del motor de plantillas Handlebars
+// Handlebars template engine configuration
 app.engine(
   "handlebars",
   engine({
@@ -77,13 +77,13 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Rutas
+// Routes
 app.use("/", viewsRouter);
 app.use("/", router);
 app.use(errorHandler);
 app.use(pathHandler);
 
-// Iniciar servidor
+// Start server
 server.listen(port, () =>
-  console.log(`Servidor corriendo en el puerto ${port}`)
+  console.log(`Server running on port ${port}`)
 );
