@@ -1,0 +1,31 @@
+<div class="message-container">
+  <p>{{message}}</p>
+</div>
+<div class="real-time"><a href="/realTimeProducts">
+    Go to Real-Time Render</a></div>
+<section class="products-real">
+  {{#each products}}
+    <div class="card" style="width: 18rem;" data-id="{{this._id}}">
+      {{#if this.photo}}
+        <img src="{{this.photo}}" class="card-img-top" alt="..." />
+      {{else}}
+        <img
+          src="https://static.thenounproject.com/png/1247947-200.png"
+          class="card-img-top"
+          alt="..."
+        />
+      {{/if}}
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="attribute">💲 {{this.price}}</span>
+          <span class="attribute">📦 Stock: {{this.stock}}</span>
+        </div>
+        <div class="button-container">
+          <a href="/product/{{this._id}}" class="button">View more</a>
+          <button class="button" data-id="{{this._id}}"> Delete</button>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</section>
